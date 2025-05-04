@@ -1,6 +1,7 @@
 import random
 
-from rest_framework import status
+from django.db.models import QuerySet
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -18,3 +19,17 @@ def get_random_character_view(request: Request) -> Response:
     serializer = CharacterSerializer(random_character)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CharacterListView(generics.ListAPIView):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+
+    def get_queryset(self) -> QuerySet:
+        queryset = super().get_queryset()
+        name = self.request.query_params.get("name")
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset
