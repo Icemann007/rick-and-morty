@@ -17,9 +17,9 @@ def scrape_characters() -> list[Character]:
                     api_id=character_dict["id"],
                     name=character_dict["name"],
                     status=character_dict["status"],
-                    species = character_dict["species"],
-                    gender = character_dict["gender"],
-                    image = character_dict["image"],
+                    species=character_dict["species"],
+                    gender=character_dict["gender"],
+                    image=character_dict["image"],
                 )
             )
 
